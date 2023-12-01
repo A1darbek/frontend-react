@@ -8,7 +8,7 @@ const _callApi = (token) => {
         Accept: "application/json",
         Authorization: "Bearer " + token
     };
-    return axios.get("http://localhost:8083/songs/1", { headers });
+    return axios.get("http://localhost:8083/songs", { headers });
 }
 
 export const callApi = () => {

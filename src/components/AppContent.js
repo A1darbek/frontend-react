@@ -8,32 +8,40 @@ import styled from 'styled-components';
 
 
 const AppContainer = styled.div`
-  font-family: Arial, sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #282828;
+  border-radius: 10px;
+  background-color: #121212;
+  color: #fff;
 
   h1 {
     font-size: 24px;
     margin-bottom: 10px;
+    color: #1db954; /* Spotify Green */
   }
 
   p {
     margin: 5px 0;
+    color: #b3b3b3; /* Light gray text */
   }
 
   img {
     max-width: 100%;
     height: auto;
     margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   audio {
     width: 100%;
+    height: 40px; /* Add a fixed height */
     margin-top: 10px;
   }
+
 `;
 
 export default class AppContent extends React.Component {
@@ -90,25 +98,23 @@ export default class AppContent extends React.Component {
         return (
             <>
                 <AppContainer>
-                    {apiData && (
-                        <div>
-                            <h1>{apiData.title}</h1>
-                            <p>Artist: {apiData.artist.name}</p>
-                            <p>Album: {apiData.album.title}</p>
-                            <p>Length: {apiData.length}</p>
-                            <p>Genre: {apiData.genre}</p>
+                    {apiData && apiData.map(song => (
+                        <div key={song.id}>
+                            <h1>{song.title}</h1>
+                            <p>Artist: {song.artist.name}</p>
+                            <p>Album: {song.album.title}</p>
+                            <p>Length: {song.length}</p>
+                            <p>Genre: {song.genre}</p>
                             {/* Render other fields as needed */}
-                            {apiData.thumbnail && (
-                                <img src={apiData.thumbnail} alt="Thumbnail" />
-                            )}
-                            {apiData.signedUrl && (
+                            {song.thumbnail && <img src={song.thumbnail} alt="Thumbnail" />}
+                            {song.signedUrl && (
                                 <audio controls>
-                                    <source src={apiData.signedUrl} type="audio/mpeg" />
+                                    <source src={song.signedUrl} type="audio/mpeg" />
                                     Your browser does not support the audio element.
                                 </audio>
                             )}
                         </div>
-                    )}
+                    ))}
                 </AppContainer>
 
                 <ToastContainer />
@@ -124,4 +130,5 @@ export default class AppContent extends React.Component {
             </>
         );
     }
+
 }
